@@ -1,0 +1,103 @@
+local gui = Instance.new("ScreenGui")
+local frame = Instance.new("Frame")
+local closeButton = Instance.new("TextButton")
+local scrollingFrame = Instance.new("ScrollingFrame")
+local uiStroke = Instance.new("UIStroke")
+local textLabels = {}
+local dragging = false
+local dragInput, dragStart, startPos
+
+-- Thuộc tính GUI
+gui.Name = "CustomMenu"
+gui.Parent = game.CoreGui
+
+-- Thuộc tính Frame (Menu)
+frame.Name = "MenuFrame"
+frame.Parent = gui
+frame.BackgroundColor3 = Color3.fromRGB(30, 0, 30) -- Màu nền tím tối
+frame.Position = UDim2.new(0.4, 0, 0.3, 0)
+frame.Size = UDim2.new(0, 200, 0, 300) -- Kích thước ngắn hơn một chút
+
+-- Viền phát sáng màu tím
+uiStroke.Parent = frame
+uiStroke.Thickness = 2
+uiStroke.Color = Color3.fromRGB(170, 0, 255) -- Màu tím phát sáng hơn
+uiStroke.Transparency = 0.2 -- Độ trong suốt thấp để viền phát sáng hơn
+
+-- Nút xóa
+closeButton.Name = "CloseButton"
+closeButton.Parent = frame
+closeButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0) -- Nút đỏ
+closeButton.Size = UDim2.new(0, 20, 0, 20)
+closeButton.Position = UDim2.new(0, 5, 0, 5)
+closeButton.Text = "X"
+closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+
+-- ScrollingFrame để cuộn văn bản
+scrollingFrame.Name = "ScrollingFrame"
+scrollingFrame.Parent = frame
+scrollingFrame.Size = UDim2.new(1, -10, 1, -30)
+scrollingFrame.Position = UDim2.new(0, 5, 0, 30)
+scrollingFrame.BackgroundTransparency = 1
+scrollingFrame.CanvasSize = UDim2.new(0, 0, 3, 0) -- Kích thước để lăn lên xuống
+scrollingFrame.ScrollBarThickness = 6
+
+-- Tạo các dòng text
+local textData = {
+    ";H_menu", ";H_menu_tp_sea3", ";H_tp_g_pc", ";H_view", ";H_no_clip", ";H_light",
+    ";H_ifn_zoom", ";H_ifn_jump", ";H_hunt", ";H_hit_box", ";H_haki_v10",
+    ";H_aim_tp_g", ";H_aim_bot", ";H_fly", ";H_auto_click", ";H_fling",
+    ";H_raid", ";H_tp"
+}
+
+for i, text in ipairs(textData) do
+    local textLabel = Instance.new("TextLabel")
+    textLabel.Parent = scrollingFrame
+    textLabel.Text = string.format("%d. %s", i, text) -- Đánh số ở đầu dòng
+    textLabel.Size = UDim2.new(1, -10, 0, 20)
+    textLabel.Position = UDim2.new(0, 5, 0, (i - 1) * 25)
+    textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    textLabel.BackgroundTransparency = 1
+    textLabel.TextScaled = false
+    textLabel.TextSize = 14 -- Cỡ chữ nhỏ
+    textLabel.Font = Enum.Font.SourceSans
+    textLabel.TextXAlignment = Enum.TextXAlignment.Left -- Căn dòng chữ thẳng hàng
+    table.insert(textLabels, textLabel)
+end
+
+-- Kéo thả Menu
+local function update(input)
+	local delta = input.Position - dragStart
+	frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+end
+
+frame.InputBegan:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 then
+		dragging = true
+		dragStart = input.Position
+		startPos = frame.Position
+		
+		input.Changed:Connect(function()
+			if input.UserInputState == Enum.UserInputState.End then
+				dragging = false
+			end
+		end)
+	end
+end)
+
+frame.InputChanged:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseMovement then
+		dragInput = input
+	end
+end)
+
+game:GetService("UserInputService").InputChanged:Connect(function(input)
+	if input == dragInput and dragging then
+		update(input)
+	end
+end)
+
+-- Xóa GUI khi bấm nút
+closeButton.MouseButton1Click:Connect(function()
+    gui:Destroy()
+end)
