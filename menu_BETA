@@ -47,7 +47,7 @@ local textData = {
     ";H_menu", ";H_menu_tp_sea3", ";H_tp_g_pc", ";H_view", ";H_no_clip", ";H_light",
     ";H_ifn_zoom", ";H_ifn_jump", ";H_hunt", ";H_hit_box", ";H_haki_v10",
     ";H_aim_tp_g", ";H_aim_bot", ";H_fly", ";H_auto_click", ";H_fling",
-    ";H_raid", ";H_tp", ";H_speed"
+    ";H_raid", ";H_tp", ";H_speed", ";H_auto_chest_sea3"
 }
 
 for i, text in ipairs(textData) do
