@@ -44,10 +44,10 @@ scrollingFrame.ScrollBarThickness = 6
 
 -- Tạo các dòng text
 local textData = {
-    ";H_menu", ";H_menu_tad", ";H_menu_tp_sea3", ";H_tp_g_pc", ";H_view", ";H_no_clip", ";H_light",
+    ";H_menu", ";H_menu_tp_sea3", ";H_tp_g_pc", ";H_view", ";H_no_clip", ";H_light",
     ";H_ifn_zoom", ";H_ifn_jump", ";H_hunt", ";H_hit_box", ";H_haki_v10",
     ";H_aim_tp_g", ";H_aim_bot", ";H_fly", ";H_auto_click", ";H_fling",
-    ";H_raid", ";H_tp", ";H_speed", ";H_auto_chest", ";H_toy"
+    ";H_raid", ";H_tp", ";H_speed", ";H_auto_chest", ";H_toy", ";H_to_sea_lv6"
 }
 
 for i, text in ipairs(textData) do
